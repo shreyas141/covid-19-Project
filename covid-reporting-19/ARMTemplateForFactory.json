@@ -19,7 +19,7 @@
 			"type": "string",
 			"defaultValue": "https://covidreportingg2.dfs.core.windows.net/"
 		},
-		"tr ingest pupulation data_properties_typeProperties_scope": {
+		"tr_copy_data_properties_typeProperties_scope": {
 			"type": "string",
 			"defaultValue": "/subscriptions/ecd1743b-4909-4d75-8c4c-54480d1e2d6f/resourceGroups/project-covid-19/providers/Microsoft.Storage/storageAccounts/covidreportingblb"
 		}
@@ -438,7 +438,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/tr ingest pupulation data')]",
+			"name": "[concat(parameters('factoryName'), '/tr_copy_data')]",
 			"type": "Microsoft.DataFactory/factories/triggers",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -457,7 +457,7 @@
 				"typeProperties": {
 					"blobPathBeginsWith": "/population/blobs/population_by_age.tsv.gz",
 					"ignoreEmptyBlobs": true,
-					"scope": "[parameters('tr ingest pupulation data_properties_typeProperties_scope')]",
+					"scope": "[parameters('tr_copy_data_properties_typeProperties_scope')]",
 					"events": [
 						"Microsoft.Storage.BlobCreated"
 					]
