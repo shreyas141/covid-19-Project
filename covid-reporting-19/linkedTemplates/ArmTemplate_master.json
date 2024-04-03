@@ -19,6 +19,10 @@
 			"type": "string",
 			"defaultValue": "https://covidreportingg2.dfs.core.windows.net/"
 		},
+		"tr ingest pupulation data_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/ecd1743b-4909-4d75-8c4c-54480d1e2d6f/resourceGroups/project-covid-19/providers/Microsoft.Storage/storageAccounts/covidreportingblb"
+		},
 		"containerUri": {
 			"type": "string",
 			"metadata": "URI to storage account containing linked ARM templates"
@@ -54,6 +58,9 @@
 					},
 					"ls_adls_covidreportingg2_properties_typeProperties_url": {
 						"value": "[parameters('ls_adls_covidreportingg2_properties_typeProperties_url')]"
+					},
+					"tr ingest pupulation data_properties_typeProperties_scope": {
+						"value": "[parameters('tr ingest pupulation data_properties_typeProperties_scope')]"
 					}
 				}
 			},
