@@ -1,0 +1,17 @@
+{
+	"name": "tr ingest pupulation data",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Stopped",
+		"pipelines": [],
+		"type": "BlobEventsTrigger",
+		"typeProperties": {
+			"blobPathBeginsWith": "/population/blobs/population_by_age.tsv.gz",
+			"ignoreEmptyBlobs": true,
+			"scope": "/subscriptions/ecd1743b-4909-4d75-8c4c-54480d1e2d6f/resourceGroups/project-covid-19/providers/Microsoft.Storage/storageAccounts/covidreportingblb",
+			"events": [
+				"Microsoft.Storage.BlobCreated"
+			]
+		}
+	}
+}
