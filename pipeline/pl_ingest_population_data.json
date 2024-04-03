@@ -1,5 +1,5 @@
 {
-	"name": "pl_ingest_population_data_",
+	"name": "pl_ingest_population_data",
 	"properties": {
 		"activities": [
 			{
@@ -109,7 +109,7 @@
 			}
 		},
 		"folder": {
-			"name": "covid-19-project"
+			"name": "check if file exists scnarios"
 		},
 		"annotations": []
 	}
