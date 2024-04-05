@@ -6,7 +6,7 @@
 			"type": "LinkedServiceReference"
 		},
 		"parameters": {
-			"relatice_url": {
+			"relative_url": {
 				"type": "String"
 			}
 		},
@@ -16,7 +16,7 @@
 			"location": {
 				"type": "HttpServerLocation",
 				"relativeUrl": {
-					"value": "@dataset().relatice_url",
+					"value": "@dataset().relative_url",
 					"type": "Expression"
 				}
 			},

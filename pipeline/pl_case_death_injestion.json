@@ -52,8 +52,8 @@
 						"referenceName": "ds_ecdc_raw_csv_http",
 						"type": "DatasetReference",
 						"parameters": {
-							"relatice_url": {
-								"value": "@pipeline().parameters.relatice_url",
+							"relative_url": {
+								"value": "@pipeline().parameters.relative_url",
 								"type": "Expression"
 							}
 						}
@@ -77,7 +77,7 @@
 			"dataset_name": {
 				"type": "string"
 			},
-			"relatice_url": {
+			"relative_url": {
 				"type": "string"
 			}
 		},
