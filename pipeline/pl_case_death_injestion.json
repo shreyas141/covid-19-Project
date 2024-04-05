@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "copy_cases_deaths_data",
+				"name": "copy_ecdc_data",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -49,18 +49,38 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "ds_cases_deths_raw_csv_http",
-						"type": "DatasetReference"
+						"referenceName": "ds_ecdc_raw_csv_http",
+						"type": "DatasetReference",
+						"parameters": {
+							"relatice_url": {
+								"value": "@pipeline().parameters.relatice_url",
+								"type": "Expression"
+							}
+						}
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "ds_cses_deaths_data_raw_csv_g2",
-						"type": "DatasetReference"
+						"referenceName": "ds_ecdc_data_raw_csv_g2",
+						"type": "DatasetReference",
+						"parameters": {
+							"dataset_name": {
+								"value": "@pipeline().parameters.dataset_name",
+								"type": "Expression"
+							}
+						}
 					}
 				]
 			}
 		],
+		"parameters": {
+			"dataset_name": {
+				"type": "string"
+			},
+			"relatice_url": {
+				"type": "string"
+			}
+		},
 		"folder": {
 			"name": "covid-19-project"
 		},
