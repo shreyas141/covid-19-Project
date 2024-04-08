@@ -3,11 +3,20 @@
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "ls_http_ecdc_data_git",
-			"type": "LinkedServiceReference"
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"sourceBaseURL": {
+					"value": "@dataset().BaseURL",
+					"type": "Expression"
+				}
+			}
 		},
 		"parameters": {
-			"relative_url": {
+			"BaseURL": {
 				"type": "String"
+			},
+			"RelativeURL": {
+				"type": "string"
 			}
 		},
 		"annotations": [],
@@ -16,7 +25,7 @@
 			"location": {
 				"type": "HttpServerLocation",
 				"relativeUrl": {
-					"value": "@dataset().relative_url",
+					"value": "@dataset().RelativeURL",
 					"type": "Expression"
 				}
 			},
