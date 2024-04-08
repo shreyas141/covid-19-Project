@@ -21,7 +21,7 @@
 					"name": "selectRequiredColumns"
 				},
 				{
-					"name": "pivot1"
+					"name": "pivotCount"
 				}
 			],
 			"scriptLines": [
@@ -58,8 +58,8 @@
 				"          source),",
 				"     pivotBy(indicator, ['confirmed cases', 'deaths']),",
 				"     count = sum(daily_count),",
-				"     columnNaming: '$N_$V',",
-				"     lateral: true) ~> pivot1"
+				"     columnNaming: '$V_$N',",
+				"     lateral: true) ~> pivotCount"
 			]
 		}
 	}
