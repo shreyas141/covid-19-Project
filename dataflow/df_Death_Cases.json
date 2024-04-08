@@ -1,0 +1,54 @@
+{
+	"name": "df_Death_Cases",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_death_cases_raw",
+						"type": "DatasetReference"
+					},
+					"name": "sourceDeathCases"
+				}
+			],
+			"sinks": [],
+			"transformations": [
+				{
+					"name": "filterDeathCasesData"
+				},
+				{
+					"name": "selectColumns"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          country as string,",
+				"          country_code as string,",
+				"          continent as string,",
+				"          population as integer,",
+				"          indicator as string,",
+				"          daily_count as short,",
+				"          date as date,",
+				"          rate_14_day as double,",
+				"          source as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> sourceDeathCases",
+				"sourceDeathCases filter(continent == \"Europe\" && not(isNull(country_code))) ~> filterDeathCasesData",
+				"filterDeathCasesData select(mapColumn(",
+				"          country,",
+				"          country_code,",
+				"          population,",
+				"          indicator,",
+				"          daily_count,",
+				"          report_date = date,",
+				"          source",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> selectColumns"
+			]
+		}
+	}
+}
