@@ -15,10 +15,10 @@
 			"sinks": [],
 			"transformations": [
 				{
-					"name": "filterDeathCasesData"
+					"name": "filterEuropeData"
 				},
 				{
-					"name": "selectColumns"
+					"name": "selectRequiredColumns"
 				}
 			],
 			"scriptLines": [
@@ -36,18 +36,19 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> sourceDeathCases",
-				"sourceDeathCases filter(continent == \"Europe\" && not(isNull(country_code))) ~> filterDeathCasesData",
-				"filterDeathCasesData select(mapColumn(",
+				"sourceDeathCases filter(continent == \"Europe\" && not(isNull(country_code))) ~> filterEuropeData",
+				"filterEuropeData select(mapColumn(",
 				"          country,",
 				"          country_code,",
 				"          population,",
 				"          indicator,",
 				"          daily_count,",
-				"          report_date = date,",
-				"          source",
+				"          source,",
+				"          each(match(name == 'date'),",
+				"               'reported_'+ $$ = $$)",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> selectColumns"
+				"     skipDuplicateMapOutputs: true) ~> selectRequiredColumns"
 			]
 		}
 	}
