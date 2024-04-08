@@ -14,8 +14,17 @@
 		"ls_adls_covidreportingg2_properties_typeProperties_url": {
 			"value": "https://covidreportingg2.dfs.core.windows.net/"
 		},
+		"ls_http_ecdc_data_git_properties_typeProperties_url": {
+			"value": "https://github.com"
+		},
 		"tr_copy_data_properties_typeProperties_scope": {
 			"value": "/subscriptions/ecd1743b-4909-4d75-8c4c-54480d1e2d6f/resourceGroups/project-covid-19/providers/Microsoft.Storage/storageAccounts/covidreportingblb"
+		},
+		"tr_case_deaths_injestion_properties_pl_ecdc_injestion_parameters_dataset_name": {
+			"value": "cases_deaths.csv"
+		},
+		"tr_case_deaths_injestion_properties_pl_ecdc_injestion_parameters_relative_url": {
+			"value": "cloudboxacademy/covid19/raw/main/ecdc_data/cases_deaths.csv"
 		}
 	}
 }
