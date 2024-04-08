@@ -3,7 +3,18 @@
 	"properties": {
 		"annotations": [],
 		"runtimeState": "Started",
-		"pipelines": [],
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "pl_ecdc_injestion",
+					"type": "PipelineReference"
+				},
+				"parameters": {
+					"dataset_name": "country_response.csv",
+					"relative_url": "cloudboxacademy/covid19/raw/main/ecdc_data/country_response.csv"
+				}
+			}
+		],
 		"type": "ScheduleTrigger",
 		"typeProperties": {
 			"recurrence": {
