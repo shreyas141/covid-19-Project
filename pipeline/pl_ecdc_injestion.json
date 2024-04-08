@@ -1,5 +1,5 @@
 {
-	"name": "pl_case_death_injestion",
+	"name": "pl_ecdc_injestion",
 	"properties": {
 		"activities": [
 			{
@@ -75,10 +75,12 @@
 		],
 		"parameters": {
 			"dataset_name": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "cases_deaths.csv"
 			},
 			"relative_url": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "cloudboxacademy/covid19/raw/main/ecdc_data/cases_deaths.csv"
 			}
 		},
 		"folder": {
