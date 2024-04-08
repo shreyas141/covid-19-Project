@@ -34,6 +34,30 @@
 		"tr_case_deaths_injestion_properties_pl_ecdc_injestion_parameters_relative_url": {
 			"type": "string",
 			"defaultValue": "cloudboxacademy/covid19/raw/main/ecdc_data/cases_deaths.csv"
+		},
+		"tr_hospital_addmission_data_injestion_properties_pl_ecdc_injestion_parameters_dataset_name": {
+			"type": "string",
+			"defaultValue": "hospital_admissions.csv"
+		},
+		"tr_hospital_addmission_data_injestion_properties_pl_ecdc_injestion_parameters_relative_url": {
+			"type": "string",
+			"defaultValue": "cloudboxacademy/covid19/raw/main/ecdc_data/hospital_admissions.csv"
+		},
+		"tr_ testing_data_injestion_properties_pl_ecdc_injestion_parameters_dataset_name": {
+			"type": "string",
+			"defaultValue": "testing.csv"
+		},
+		"tr_ testing_data_injestion_properties_pl_ecdc_injestion_parameters_relative_url": {
+			"type": "string",
+			"defaultValue": "cloudboxacademy/covid19/raw/main/ecdc_data/testing.csv"
+		},
+		"tr_country_response_data_injestion_properties_pl_ecdc_injestion_parameters_dataset_name": {
+			"type": "string",
+			"defaultValue": "country_response.csv"
+		},
+		"tr_country_response_data_injestion_properties_pl_ecdc_injestion_parameters_relative_url": {
+			"type": "string",
+			"defaultValue": "cloudboxacademy/covid19/raw/main/ecdc_data/country_response.csv"
 		}
 	},
 	"variables": {
@@ -691,6 +715,108 @@
 						"frequency": "Day",
 						"interval": 1,
 						"startTime": "2024-04-08T09:05:00",
+						"timeZone": "India Standard Time",
+						"schedule": {}
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/pl_ecdc_injestion')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/tr_hospital_addmission_data_injestion')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Started",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "pl_ecdc_injestion",
+							"type": "PipelineReference"
+						},
+						"parameters": {
+							"dataset_name": "[parameters('tr_hospital_addmission_data_injestion_properties_pl_ecdc_injestion_parameters_dataset_name')]",
+							"relative_url": "[parameters('tr_hospital_addmission_data_injestion_properties_pl_ecdc_injestion_parameters_relative_url')]"
+						}
+					}
+				],
+				"type": "ScheduleTrigger",
+				"typeProperties": {
+					"recurrence": {
+						"frequency": "Day",
+						"interval": 1,
+						"startTime": "2024-04-07T09:15:00",
+						"timeZone": "India Standard Time",
+						"schedule": {}
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/pl_ecdc_injestion')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/tr_ testing_data_injestion')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Started",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "pl_ecdc_injestion",
+							"type": "PipelineReference"
+						},
+						"parameters": {
+							"dataset_name": "[parameters('tr_ testing_data_injestion_properties_pl_ecdc_injestion_parameters_dataset_name')]",
+							"relative_url": "[parameters('tr_ testing_data_injestion_properties_pl_ecdc_injestion_parameters_relative_url')]"
+						}
+					}
+				],
+				"type": "ScheduleTrigger",
+				"typeProperties": {
+					"recurrence": {
+						"frequency": "Day",
+						"interval": 1,
+						"startTime": "2024-04-08T09:15:00",
+						"timeZone": "India Standard Time",
+						"schedule": {}
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/pl_ecdc_injestion')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/tr_country_response_data_injestion')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Started",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "pl_ecdc_injestion",
+							"type": "PipelineReference"
+						},
+						"parameters": {
+							"dataset_name": "[parameters('tr_country_response_data_injestion_properties_pl_ecdc_injestion_parameters_dataset_name')]",
+							"relative_url": "[parameters('tr_country_response_data_injestion_properties_pl_ecdc_injestion_parameters_relative_url')]"
+						}
+					}
+				],
+				"type": "ScheduleTrigger",
+				"typeProperties": {
+					"recurrence": {
+						"frequency": "Day",
+						"interval": 1,
+						"startTime": "2024-04-07T09:15:00",
 						"timeZone": "India Standard Time",
 						"schedule": {}
 					}

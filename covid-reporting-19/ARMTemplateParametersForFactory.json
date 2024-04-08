@@ -25,6 +25,24 @@
 		},
 		"tr_case_deaths_injestion_properties_pl_ecdc_injestion_parameters_relative_url": {
 			"value": "cloudboxacademy/covid19/raw/main/ecdc_data/cases_deaths.csv"
+		},
+		"tr_hospital_addmission_data_injestion_properties_pl_ecdc_injestion_parameters_dataset_name": {
+			"value": "hospital_admissions.csv"
+		},
+		"tr_hospital_addmission_data_injestion_properties_pl_ecdc_injestion_parameters_relative_url": {
+			"value": "cloudboxacademy/covid19/raw/main/ecdc_data/hospital_admissions.csv"
+		},
+		"tr_ testing_data_injestion_properties_pl_ecdc_injestion_parameters_dataset_name": {
+			"value": "testing.csv"
+		},
+		"tr_ testing_data_injestion_properties_pl_ecdc_injestion_parameters_relative_url": {
+			"value": "cloudboxacademy/covid19/raw/main/ecdc_data/testing.csv"
+		},
+		"tr_country_response_data_injestion_properties_pl_ecdc_injestion_parameters_dataset_name": {
+			"value": "country_response.csv"
+		},
+		"tr_country_response_data_injestion_properties_pl_ecdc_injestion_parameters_relative_url": {
+			"value": "cloudboxacademy/covid19/raw/main/ecdc_data/country_response.csv"
 		}
 	}
 }
