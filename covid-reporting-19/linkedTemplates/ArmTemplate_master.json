@@ -21,43 +21,11 @@
 		},
 		"ls_http_ecdc_data_git_properties_typeProperties_url": {
 			"type": "string",
-			"defaultValue": "https://github.com"
+			"defaultValue": "@{linkedService().sourceBaseURL}"
 		},
 		"tr_copy_data_properties_typeProperties_scope": {
 			"type": "string",
 			"defaultValue": "/subscriptions/ecd1743b-4909-4d75-8c4c-54480d1e2d6f/resourceGroups/project-covid-19/providers/Microsoft.Storage/storageAccounts/covidreportingblb"
-		},
-		"tr_case_deaths_injestion_properties_pl_ecdc_injestion_parameters_dataset_name": {
-			"type": "string",
-			"defaultValue": "cases_deaths.csv"
-		},
-		"tr_case_deaths_injestion_properties_pl_ecdc_injestion_parameters_relative_url": {
-			"type": "string",
-			"defaultValue": "cloudboxacademy/covid19/raw/main/ecdc_data/cases_deaths.csv"
-		},
-		"tr_hospital_addmission_data_injestion_properties_pl_ecdc_injestion_parameters_dataset_name": {
-			"type": "string",
-			"defaultValue": "hospital_admissions.csv"
-		},
-		"tr_hospital_addmission_data_injestion_properties_pl_ecdc_injestion_parameters_relative_url": {
-			"type": "string",
-			"defaultValue": "cloudboxacademy/covid19/raw/main/ecdc_data/hospital_admissions.csv"
-		},
-		"tr_ testing_data_injestion_properties_pl_ecdc_injestion_parameters_dataset_name": {
-			"type": "string",
-			"defaultValue": "testing.csv"
-		},
-		"tr_ testing_data_injestion_properties_pl_ecdc_injestion_parameters_relative_url": {
-			"type": "string",
-			"defaultValue": "cloudboxacademy/covid19/raw/main/ecdc_data/testing.csv"
-		},
-		"tr_country_response_data_injestion_properties_pl_ecdc_injestion_parameters_dataset_name": {
-			"type": "string",
-			"defaultValue": "country_response.csv"
-		},
-		"tr_country_response_data_injestion_properties_pl_ecdc_injestion_parameters_relative_url": {
-			"type": "string",
-			"defaultValue": "cloudboxacademy/covid19/raw/main/ecdc_data/country_response.csv"
 		},
 		"containerUri": {
 			"type": "string",
@@ -100,30 +68,6 @@
 					},
 					"tr_copy_data_properties_typeProperties_scope": {
 						"value": "[parameters('tr_copy_data_properties_typeProperties_scope')]"
-					},
-					"tr_case_deaths_injestion_properties_pl_ecdc_injestion_parameters_dataset_name": {
-						"value": "[parameters('tr_case_deaths_injestion_properties_pl_ecdc_injestion_parameters_dataset_name')]"
-					},
-					"tr_case_deaths_injestion_properties_pl_ecdc_injestion_parameters_relative_url": {
-						"value": "[parameters('tr_case_deaths_injestion_properties_pl_ecdc_injestion_parameters_relative_url')]"
-					},
-					"tr_hospital_addmission_data_injestion_properties_pl_ecdc_injestion_parameters_dataset_name": {
-						"value": "[parameters('tr_hospital_addmission_data_injestion_properties_pl_ecdc_injestion_parameters_dataset_name')]"
-					},
-					"tr_hospital_addmission_data_injestion_properties_pl_ecdc_injestion_parameters_relative_url": {
-						"value": "[parameters('tr_hospital_addmission_data_injestion_properties_pl_ecdc_injestion_parameters_relative_url')]"
-					},
-					"tr_ testing_data_injestion_properties_pl_ecdc_injestion_parameters_dataset_name": {
-						"value": "[parameters('tr_ testing_data_injestion_properties_pl_ecdc_injestion_parameters_dataset_name')]"
-					},
-					"tr_ testing_data_injestion_properties_pl_ecdc_injestion_parameters_relative_url": {
-						"value": "[parameters('tr_ testing_data_injestion_properties_pl_ecdc_injestion_parameters_relative_url')]"
-					},
-					"tr_country_response_data_injestion_properties_pl_ecdc_injestion_parameters_dataset_name": {
-						"value": "[parameters('tr_country_response_data_injestion_properties_pl_ecdc_injestion_parameters_dataset_name')]"
-					},
-					"tr_country_response_data_injestion_properties_pl_ecdc_injestion_parameters_relative_url": {
-						"value": "[parameters('tr_country_response_data_injestion_properties_pl_ecdc_injestion_parameters_relative_url')]"
 					}
 				}
 			},
