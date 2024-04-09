@@ -57,12 +57,6 @@
 				},
 				{
 					"name": "pivotWeekly"
-				},
-				{
-					"name": "sortWeekly"
-				},
-				{
-					"name": "sortDaily"
 				}
 			],
 			"scriptLines": [
@@ -176,11 +170,7 @@
 				"     pivotBy(indicator, ['Weekly new hospital admissions per 100k', 'Weekly new ICU admissions per 100k']),",
 				"     count = sum(value),",
 				"     columnNaming: '$V_$N',",
-				"     lateral: true) ~> pivotWeekly",
-				"pivotWeekly sort(asc(reported_year_week, false),",
-				"     asc(country, true)) ~> sortWeekly",
-				"selectRequiredColumn sort(asc(country, true),",
-				"     asc(reported_date, true)) ~> sortDaily"
+				"     lateral: true) ~> pivotWeekly"
 			]
 		}
 	}
