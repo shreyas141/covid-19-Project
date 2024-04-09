@@ -12,13 +12,23 @@
 					"name": "sourceHospitalAdmissions"
 				},
 				{
-					"name": "dourceDimDate"
+					"dataset": {
+						"referenceName": "ds_country_lookup",
+						"type": "DatasetReference"
+					},
+					"name": "sourceCountry"
 				}
 			],
 			"sinks": [],
 			"transformations": [
 				{
 					"name": "selectRequiredColumns"
+				},
+				{
+					"name": "lookupCountry"
+				},
+				{
+					"name": "selectRequiredColumns2"
 				}
 			],
 			"scriptLines": [
@@ -34,8 +44,16 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> sourceHospitalAdmissions",
-				"source(allowSchemaDrift: true,",
-				"     validateSchema: false) ~> dourceDimDate",
+				"source(output(",
+				"          country as string,",
+				"          country_code_2_digit as string,",
+				"          country_code_3_digit as string,",
+				"          continent as string,",
+				"          population as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> sourceCountry",
 				"sourceHospitalAdmissions select(mapColumn(",
 				"          country,",
 				"          indicator,",
@@ -45,7 +63,24 @@
 				"          source",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> selectRequiredColumns"
+				"     skipDuplicateMapOutputs: true) ~> selectRequiredColumns",
+				"selectRequiredColumns, sourceCountry lookup(selectRequiredColumns@country == sourceCountry@country,",
+				"     multiple: false,",
+				"     pickup: 'any',",
+				"     broadcast: 'auto')~> lookupCountry",
+				"lookupCountry select(mapColumn(",
+				"          country = selectRequiredColumns@country,",
+				"          indicator,",
+				"          reported_date,",
+				"          reported_year_week,",
+				"          value,",
+				"          source,",
+				"          country_code_2_digit,",
+				"          country_code_3_digit,",
+				"          population",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> selectRequiredColumns2"
 			]
 		}
 	}
