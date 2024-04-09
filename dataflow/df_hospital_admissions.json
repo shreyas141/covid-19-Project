@@ -17,6 +17,13 @@
 						"type": "DatasetReference"
 					},
 					"name": "sourceCountry"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_dim_date_lookup",
+						"type": "DatasetReference"
+					},
+					"name": "sourceDimDate"
 				}
 			],
 			"sinks": [],
@@ -32,6 +39,24 @@
 				},
 				{
 					"name": "splitDailyFromWeekly"
+				},
+				{
+					"name": "deriveECDCYearWeek"
+				},
+				{
+					"name": "aggDimDate"
+				},
+				{
+					"name": "joinECDCWithDimDate"
+				},
+				{
+					"name": "pivotDailyHospital"
+				},
+				{
+					"name": "selectRequiredColumn"
+				},
+				{
+					"name": "pivotWeekly"
 				}
 			],
 			"scriptLines": [
@@ -57,6 +82,23 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> sourceCountry",
+				"source(output(",
+				"          date_key as string,",
+				"          date as string,",
+				"          year as string,",
+				"          month as string,",
+				"          day as string,",
+				"          day_name as string,",
+				"          day_of_year as string,",
+				"          week_of_month as string,",
+				"          week_of_year as string,",
+				"          month_name as string,",
+				"          year_month as string,",
+				"          year_week as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> sourceDimDate",
 				"sourceHospitalAdmissions select(mapColumn(",
 				"          country,",
 				"          indicator,",
@@ -85,7 +127,50 @@
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> selectRequiredColumns2",
 				"selectRequiredColumns2 split(indicator == 'Weekly new hospital admissions per 100k' || indicator == 'Weekly new ICU admissions per 100k',",
-				"     disjoint: false) ~> splitDailyFromWeekly@(Weekly, Daily)"
+				"     disjoint: false) ~> splitDailyFromWeekly@(Weekly, Daily)",
+				"sourceDimDate derive(ecdc_year_week = year+'-W'+lpad(week_of_year, 2, '0')) ~> deriveECDCYearWeek",
+				"deriveECDCYearWeek aggregate(groupBy(ecdc_year_week),",
+				"     week_start_date = min(date),",
+				"          week_end_date = max(date)) ~> aggDimDate",
+				"splitDailyFromWeekly@Weekly, aggDimDate join(reported_year_week == ecdc_year_week,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> joinECDCWithDimDate",
+				"splitDailyFromWeekly@Daily pivot(groupBy(country,",
+				"          reported_date,",
+				"          country_code_2_digit,",
+				"          country_code_3_digit,",
+				"          population,",
+				"          source),",
+				"     pivotBy(indicator, ['Daily hospital occupancy', 'Daily ICU occupancy']),",
+				"     count = sum(value),",
+				"     columnNaming: '$V_$N',",
+				"     lateral: true) ~> pivotDailyHospital",
+				"pivotDailyHospital select(mapColumn(",
+				"          country,",
+				"          country_code_2_digit,",
+				"          country_code_3_digit,",
+				"          population,",
+				"          reported_date,",
+				"          {Daily hospital occupancy_count},",
+				"          {Daily ICU occupancy_count},",
+				"          source",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> selectRequiredColumn",
+				"joinECDCWithDimDate pivot(groupBy(country,",
+				"          country_code_2_digit,",
+				"          country_code_3_digit,",
+				"          reported_year_week,",
+				"          week_start_date,",
+				"          week_end_date,",
+				"          source,",
+				"          population),",
+				"     pivotBy(indicator, ['Weekly new hospital admissions per 100k', 'Weekly new ICU admissions per 100k']),",
+				"     count = sum(value),",
+				"     columnNaming: '$V_$N',",
+				"     lateral: true) ~> pivotWeekly"
 			]
 		}
 	}
