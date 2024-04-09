@@ -29,6 +29,9 @@
 				},
 				{
 					"name": "selectRequiredColumns2"
+				},
+				{
+					"name": "splitDailyFromWeekly"
 				}
 			],
 			"scriptLines": [
@@ -80,7 +83,9 @@
 				"          population",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> selectRequiredColumns2"
+				"     skipDuplicateMapOutputs: true) ~> selectRequiredColumns2",
+				"selectRequiredColumns2 split(indicator == 'Weekly new hospital admissions per 100k' || indicator == 'Weekly new ICU admissions per 100k',",
+				"     disjoint: false) ~> splitDailyFromWeekly@(Weekly, Daily)"
 			]
 		}
 	}
