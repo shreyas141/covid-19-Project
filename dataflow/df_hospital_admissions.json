@@ -53,9 +53,6 @@
 					"name": "pivotDailyHospital"
 				},
 				{
-					"name": "selectRequiredColumn"
-				},
-				{
 					"name": "pivotWeekly"
 				}
 			],
@@ -147,18 +144,6 @@
 				"     count = sum(value),",
 				"     columnNaming: '$V_$N',",
 				"     lateral: true) ~> pivotDailyHospital",
-				"pivotDailyHospital select(mapColumn(",
-				"          country,",
-				"          country_code_2_digit,",
-				"          country_code_3_digit,",
-				"          population,",
-				"          reported_date,",
-				"          {Daily hospital occupancy_count},",
-				"          {Daily ICU occupancy_count},",
-				"          source",
-				"     ),",
-				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> selectRequiredColumn",
 				"joinECDCWithDimDate pivot(groupBy(country,",
 				"          country_code_2_digit,",
 				"          country_code_3_digit,",
