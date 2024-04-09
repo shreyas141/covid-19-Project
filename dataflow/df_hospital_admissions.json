@@ -10,10 +10,17 @@
 						"type": "DatasetReference"
 					},
 					"name": "sourceHospitalAdmissions"
+				},
+				{
+					"name": "dourceDimDate"
 				}
 			],
 			"sinks": [],
-			"transformations": [],
+			"transformations": [
+				{
+					"name": "selectRequiredColumns"
+				}
+			],
 			"scriptLines": [
 				"source(output(",
 				"          country as string,",
@@ -26,7 +33,19 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> sourceHospitalAdmissions"
+				"     ignoreNoFilesFound: false) ~> sourceHospitalAdmissions",
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false) ~> dourceDimDate",
+				"sourceHospitalAdmissions select(mapColumn(",
+				"          country,",
+				"          indicator,",
+				"          reported_date = date,",
+				"          reported_year_week = year_week,",
+				"          value,",
+				"          source",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> selectRequiredColumns"
 			]
 		}
 	}
