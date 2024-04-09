@@ -93,7 +93,7 @@
 					"location": {
 						"type": "AzureBlobFSLocation",
 						"fileName": "country-lookup.csv",
-						"folderPath": "lookup",
+						"folderPath": "lookup/dim-country",
 						"fileSystem": "raw"
 					},
 					"columnDelimiter": ",",
@@ -159,7 +159,7 @@
 					"location": {
 						"type": "AzureBlobFSLocation",
 						"fileName": "cases_deaths.csv",
-						"folderPath": "ecdc",
+						"folderPath": "ecdc/cases_deaths",
 						"fileSystem": "raw"
 					},
 					"columnDelimiter": ",",
@@ -225,7 +225,7 @@
 					"location": {
 						"type": "AzureBlobFSLocation",
 						"fileName": "dim-date.csv",
-						"folderPath": "lookup",
+						"folderPath": "lookup/dim-date",
 						"fileSystem": "raw"
 					},
 					"columnDelimiter": ",",
@@ -564,7 +564,7 @@
 					"location": {
 						"type": "AzureBlobFSLocation",
 						"fileName": "hospital_admissions.csv",
-						"folderPath": "ecdc",
+						"folderPath": "ecdc/hospital_admissions",
 						"fileSystem": "raw"
 					},
 					"columnDelimiter": ",",
@@ -1187,12 +1187,14 @@
 						"     skipDuplicateMapOutputs: true) ~> selectRequiredColumn2",
 						"selectRequiredColumn2 sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
+						"     partitionFileNames:['cases_deaths.csv'],",
 						"     truncate: true,",
 						"     umask: 0022,",
 						"     preCommands: [],",
 						"     postCommands: [],",
 						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> sinkCasesDeaths"
+						"     skipDuplicateMapOutputs: true,",
+						"     partitionBy('hash', 1)) ~> sinkCasesDeaths"
 					]
 				}
 			},
@@ -1411,18 +1413,24 @@
 						"     skipDuplicateMapOutputs: true) ~> selectColumnOrder2",
 						"selectColumnOrder sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
+						"     partitionFileNames:['weekly-hospital-admissions.csv'],",
+						"     truncate: true,",
 						"     umask: 0022,",
 						"     preCommands: [],",
 						"     postCommands: [],",
 						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> sinkWeekly",
+						"     skipDuplicateMapOutputs: true,",
+						"     partitionBy('hash', 1)) ~> sinkWeekly",
 						"selectColumnOrder2 sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
+						"     partitionFileNames:['daily-hospital-admissions.csv'],",
+						"     truncate: true,",
 						"     umask: 0022,",
 						"     preCommands: [],",
 						"     postCommands: [],",
 						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> sinkDaily"
+						"     skipDuplicateMapOutputs: true,",
+						"     partitionBy('hash', 1)) ~> sinkDaily"
 					]
 				}
 			},
