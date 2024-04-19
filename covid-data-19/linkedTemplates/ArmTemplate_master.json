@@ -1,0 +1,97 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "covid-data-19"
+		},
+		"ls_ablob_covidreportingblb_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'ls_ablob_covidreportingblb'"
+		},
+		"ls_adls_covidreportingg2_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'ls_adls_covidreportingg2'"
+		},
+		"ls_adls_covidreportingg2_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://covidgentwo.dfs.core.windows.net/"
+		},
+		"ls_http_ecdc_data_git_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "@{linkedService().sourceBaseURL}"
+		},
+		"tr_copy_data_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/d9d62a63-6c2a-42d8-b3cb-a0f408bfeb32/resourceGroups/covid-19-project/providers/Microsoft.Storage/storageAccounts/covidblb"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "covid-data-19_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"ls_ablob_covidreportingblb_connectionString": {
+						"value": "[parameters('ls_ablob_covidreportingblb_connectionString')]"
+					},
+					"ls_adls_covidreportingg2_accountKey": {
+						"value": "[parameters('ls_adls_covidreportingg2_accountKey')]"
+					},
+					"ls_adls_covidreportingg2_properties_typeProperties_url": {
+						"value": "[parameters('ls_adls_covidreportingg2_properties_typeProperties_url')]"
+					},
+					"ls_http_ecdc_data_git_properties_typeProperties_url": {
+						"value": "[parameters('ls_http_ecdc_data_git_properties_typeProperties_url')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "covid-data-19_ArmTemplate_1",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_1.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"tr_copy_data_properties_typeProperties_scope": {
+						"value": "[parameters('tr_copy_data_properties_typeProperties_scope')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'covid-data-19_ArmTemplate_0')]"
+			]
+		}
+	]
+}
