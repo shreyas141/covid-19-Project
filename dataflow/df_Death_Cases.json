@@ -39,7 +39,7 @@
 					"name": "pivotCount"
 				},
 				{
-					"name": "lookup1"
+					"name": "lookupCountrySource"
 				},
 				{
 					"name": "selectRequiredColumn2"
@@ -94,8 +94,8 @@
 				"pivotCount, countryLookup lookup(pivotCount@country == countryLookup@country,",
 				"     multiple: false,",
 				"     pickup: 'any',",
-				"     broadcast: 'auto')~> lookup1",
-				"lookup1 select(mapColumn(",
+				"     broadcast: 'auto')~> lookupCountrySource",
+				"lookupCountrySource select(mapColumn(",
 				"          country = pivotCount@country,",
 				"          country_code_2_digit,",
 				"          country_code_3_digit,",
