@@ -6,7 +6,7 @@
 			"type": "LinkedServiceReference"
 		},
 		"folder": {
-			"name": "raw"
+			"name": "lookup"
 		},
 		"annotations": [],
 		"type": "DelimitedText",
