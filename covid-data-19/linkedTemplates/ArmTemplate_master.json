@@ -23,6 +23,10 @@
 			"type": "string",
 			"defaultValue": "https://covidgentwo.dfs.core.windows.net/"
 		},
+		"ls_databricks_ws_properties_typeProperties_existingClusterId": {
+			"type": "string",
+			"defaultValue": "0420-025259-txhsdtii"
+		},
 		"ls_http_ecdc_data_git_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "@{linkedService().sourceBaseURL}"
@@ -30,10 +34,6 @@
 		"tr_copy_data_properties_typeProperties_scope": {
 			"type": "string",
 			"defaultValue": "/subscriptions/d9d62a63-6c2a-42d8-b3cb-a0f408bfeb32/resourceGroups/covid-19-project/providers/Microsoft.Storage/storageAccounts/covidblb"
-		},
-		"ls_databricks_ws_properties_typeProperties_existingClusterId": {
-			"type": "string",
-			"defaultValue": "0420-025259-txhsdtii"
 		},
 		"containerUri": {
 			"type": "string",
@@ -74,11 +74,11 @@
 					"ls_adls_covidreportingg2_properties_typeProperties_url": {
 						"value": "[parameters('ls_adls_covidreportingg2_properties_typeProperties_url')]"
 					},
-					"ls_http_ecdc_data_git_properties_typeProperties_url": {
-						"value": "[parameters('ls_http_ecdc_data_git_properties_typeProperties_url')]"
-					},
 					"ls_databricks_ws_properties_typeProperties_existingClusterId": {
 						"value": "[parameters('ls_databricks_ws_properties_typeProperties_existingClusterId')]"
+					},
+					"ls_http_ecdc_data_git_properties_typeProperties_url": {
+						"value": "[parameters('ls_http_ecdc_data_git_properties_typeProperties_url')]"
 					}
 				}
 			},
