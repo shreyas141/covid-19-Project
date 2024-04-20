@@ -50,7 +50,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "ds_sql_covid_database",
+						"referenceName": "ds_cases_deaths_sql",
 						"type": "DatasetReference"
 					}
 				]

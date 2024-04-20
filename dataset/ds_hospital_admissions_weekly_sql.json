@@ -1,5 +1,5 @@
 {
-	"name": "ds_cases_deaths_sql",
+	"name": "ds_hospital_admissions_weekly_sql",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "ls_sql_covid_database",
@@ -26,18 +26,28 @@
 				"precision": 19
 			},
 			{
-				"name": "cases_count",
-				"type": "bigint",
-				"precision": 19
+				"name": "reported_year_week",
+				"type": "varchar"
 			},
 			{
-				"name": "death_count",
-				"type": "bigint",
-				"precision": 19
+				"name": "week_start_date",
+				"type": "varchar"
 			},
 			{
-				"name": "reported_date",
-				"type": "date"
+				"name": "week_end_date",
+				"type": "varchar"
+			},
+			{
+				"name": "Weekly_new_hospital_admissions_per_100k_count",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 2
+			},
+			{
+				"name": "Weekly_new_ICU_admissions_per_100k_count",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 2
 			},
 			{
 				"name": "source",
@@ -46,7 +56,7 @@
 		],
 		"typeProperties": {
 			"schema": "covid_reporting",
-			"table": "cases_and_deaths"
+			"table": "weekly_hospital_admissions"
 		}
 	}
 }
