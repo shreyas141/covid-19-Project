@@ -1,5 +1,5 @@
 {
-	"name": "pl_execute_population_notebook",
+	"name": "pl_population_processed",
 	"properties": {
 		"activities": [
 			{
@@ -24,7 +24,7 @@
 			}
 		],
 		"folder": {
-			"name": "covid-19-project"
+			"name": "covid-19-project/processed"
 		},
 		"annotations": []
 	}

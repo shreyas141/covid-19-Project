@@ -1,5 +1,5 @@
 {
-	"name": "pl_cases_death_ingestion",
+	"name": "pl_cases_death_processed",
 	"properties": {
 		"activities": [
 			{
@@ -28,7 +28,7 @@
 			}
 		],
 		"folder": {
-			"name": "covid-19-project"
+			"name": "covid-19-project/processed"
 		},
 		"annotations": []
 	}

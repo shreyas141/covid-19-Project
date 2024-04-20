@@ -1,5 +1,5 @@
 {
-	"name": "ds_ecdc_data_raw_csv_g2",
+	"name": "ds_ecdc_data_raw",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "ls_adls_covidreportingg2",
@@ -9,6 +9,9 @@
 			"dataset_name": {
 				"type": "String"
 			}
+		},
+		"folder": {
+			"name": "raw"
 		},
 		"annotations": [],
 		"type": "DelimitedText",

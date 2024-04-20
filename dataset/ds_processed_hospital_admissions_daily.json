@@ -1,9 +1,12 @@
 {
-	"name": "ds_hospital_admissions_daily",
+	"name": "ds_processed_hospital_admissions_daily",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "ls_adls_covidreportingg2",
 			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "processed"
 		},
 		"annotations": [],
 		"type": "DelimitedText",

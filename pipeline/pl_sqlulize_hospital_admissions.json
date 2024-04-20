@@ -44,7 +44,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "ds_hospital_admissions_weekly",
+						"referenceName": "ds_processed_hospital_admissions_weekly",
 						"type": "DatasetReference"
 					}
 				],
@@ -97,7 +97,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "ds_hospital_admissions_daily",
+						"referenceName": "ds_processed_hospital_admissions_daily",
 						"type": "DatasetReference"
 					}
 				],
@@ -110,7 +110,7 @@
 			}
 		],
 		"folder": {
-			"name": "covid-19-project"
+			"name": "covid-19-project/sequlize"
 		},
 		"annotations": []
 	}
