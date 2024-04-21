@@ -1,0 +1,50 @@
+{
+	"name": "pl_population_execute",
+	"properties": {
+		"activities": [
+			{
+				"name": "pl_ingest_population_data",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_ingest_population_data",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "pl_population_processed",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "pl_ingest_population_data",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_population_processed",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "covid-19-project/Execute"
+		},
+		"annotations": []
+	}
+}
