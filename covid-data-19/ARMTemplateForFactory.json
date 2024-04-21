@@ -2263,46 +2263,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/tr_sqlize_cases_and_deaths')]",
-			"type": "Microsoft.DataFactory/factories/triggers",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"runtimeState": "Started",
-				"pipeline": {
-					"pipelineReference": {
-						"referenceName": "pl_sequlize_cases_and_deaths",
-						"type": "PipelineReference"
-					},
-					"parameters": {}
-				},
-				"type": "TumblingWindowTrigger",
-				"typeProperties": {
-					"frequency": "Minute",
-					"interval": 15,
-					"startTime": "2024-04-20T17:00:00Z",
-					"delay": "00:00:00",
-					"maxConcurrency": 50,
-					"retryPolicy": {
-						"intervalInSeconds": 30
-					},
-					"dependsOn": [
-						{
-							"type": "TumblingWindowTriggerDependencyReference",
-							"referenceTrigger": {
-								"referenceName": "tr_process_cases_and_deaths",
-								"type": "TriggerReference"
-							}
-						}
-					]
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/pl_sequlize_cases_and_deaths')]",
-				"[concat(variables('factoryId'), '/triggers/tr_process_cases_and_deaths')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/tr_sqlize_hospital_admissions')]",
 			"type": "Microsoft.DataFactory/factories/triggers",
 			"apiVersion": "2018-06-01",
