@@ -5,7 +5,14 @@
 			{
 				"name": "pl_ingest_population_data",
 				"type": "ExecutePipeline",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "query_processing",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"secureInput": false
 				},
@@ -40,8 +47,135 @@
 					},
 					"waitOnCompletion": true
 				}
+			},
+			{
+				"name": "succeed_querry",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "pl_ingest_population_data",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": {
+							"value": "UPDATE [covid_progect_logs].[adf_logs] SET status = 'Succeed' WHERE job_id = '@{formatDateTime(variables('date'), 'yyyyMMddHHmmss')}';\nSELECT * FROM [covid_progect_logs].[adf_logs];",
+							"type": "Expression"
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "ds_logs_dataset",
+						"type": "DatasetReference"
+					}
+				}
+			},
+			{
+				"name": "fail_querry",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "pl_ingest_population_data",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": {
+							"value": "UPDATE [covid_progect_logs].[adf_logs] SET status = 'Failed' WHERE job_id = '@{formatDateTime(variables('date'), 'yyyyMMddHHmmss')}';\nSELECT * FROM [covid_progect_logs].[adf_logs];",
+							"type": "Expression"
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "ds_logs_dataset",
+						"type": "DatasetReference"
+					}
+				}
+			},
+			{
+				"name": "todays_date",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "date",
+					"value": {
+						"value": "@utcnow()",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "query_processing",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "todays_date",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": {
+							"value": "INSERT INTO covid_progect_logs.adf_logs (job_id, job_name, status, trigger_date) values ('@{formatDateTime(variables('date'), 'yyyyMMddHHmmss')}', 'pl_ingest_population_data', 'Processing', '@{formatDateTime(variables('date'), 'yyyyMMdd')}');\nSELECT * FROM covid_progect_logs.adf_logs;",
+							"type": "Expression"
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "ds_logs_dataset",
+						"type": "DatasetReference"
+					}
+				}
 			}
 		],
+		"variables": {
+			"date": {
+				"type": "String"
+			}
+		},
 		"folder": {
 			"name": "covid-19-project/Execute"
 		},

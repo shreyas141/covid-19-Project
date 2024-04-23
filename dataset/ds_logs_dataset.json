@@ -1,0 +1,29 @@
+{
+	"name": "ds_logs_dataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_sql_covid_database",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "trigger_date",
+				"type": "varchar"
+			},
+			{
+				"name": "act_name",
+				"type": "varchar"
+			},
+			{
+				"name": "status",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "covid_progect_logs",
+			"table": "adf_logs"
+		}
+	}
+}
