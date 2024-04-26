@@ -5,7 +5,7 @@
 		"runtimeState": "Stopped",
 		"pipeline": {
 			"pipelineReference": {
-				"referenceName": "pl_sequlize_cases_and_deaths",
+				"referenceName": "pl_sqlize_cases_and_deaths",
 				"type": "PipelineReference"
 			}
 		},
