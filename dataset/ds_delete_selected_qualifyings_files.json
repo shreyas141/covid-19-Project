@@ -1,0 +1,30 @@
+{
+	"name": "ds_delete_selected_qualifyings_files",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_interview_storage_g2",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"dl_name": {
+				"type": "String"
+			}
+		},
+		"folder": {
+			"name": "interview_scenario_questions"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@dataset().dl_name",
+					"type": "Expression"
+				},
+				"folderPath": "qualifying",
+				"fileSystem": "interview"
+			}
+		}
+	}
+}

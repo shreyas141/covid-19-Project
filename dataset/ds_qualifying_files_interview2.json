@@ -1,0 +1,62 @@
+{
+	"name": "ds_qualifying_files_interview2",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_interview_storage_g2",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"item_name": {
+				"type": "String"
+			}
+		},
+		"folder": {
+			"name": "interview_scenario_questions"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@dataset().item_name",
+					"type": "Expression"
+				},
+				"folderPath": "qualifying",
+				"fileSystem": "interview"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"qualifyId": {
+					"type": "integer"
+				},
+				"raceId": {
+					"type": "integer"
+				},
+				"driverId": {
+					"type": "integer"
+				},
+				"constructorId": {
+					"type": "integer"
+				},
+				"number": {
+					"type": "integer"
+				},
+				"position": {
+					"type": "integer"
+				},
+				"q1": {
+					"type": "string"
+				},
+				"q2": {
+					"type": "string"
+				},
+				"q3": {
+					"type": "string"
+				}
+			}
+		}
+	}
+}
