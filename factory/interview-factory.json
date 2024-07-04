@@ -1,0 +1,9 @@
+{
+	"name": "interview-factory",
+	"location": "centralindia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "d07866fc-271a-4ab5-9905-138fb351d212",
+		"tenantId": "558b074e-d626-44dd-b19a-0778e3529dfe"
+	}
+}
