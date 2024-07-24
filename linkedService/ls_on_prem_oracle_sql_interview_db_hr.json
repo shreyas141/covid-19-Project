@@ -1,0 +1,16 @@
+{
+	"name": "ls_on_prem_oracle_sql_interview_db_hr",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "Oracle",
+		"typeProperties": {
+			"connectionString": "host=SHREYAS;port=1521;sid=xe;user id=hr",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiJmMzZhMWFmNS0wYWZlLTQ1MzAtOGE0ZC05N2E0YmM0Mjc5YWMiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "shreyas-self-hosted-ir",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
