@@ -1,0 +1,12 @@
+{
+	"name": "ls_olympic_data",
+	"properties": {
+		"annotations": [],
+		"type": "HttpServer",
+		"typeProperties": {
+			"url": "https://github.com/darshilparmar/tokyo-olympic-azure-data-engineering-project/raw/main/data",
+			"enableServerCertificateValidation": true,
+			"authenticationType": "Anonymous"
+		}
+	}
+}
