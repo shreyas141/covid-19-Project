@@ -1,9 +1,14 @@
 {
-	"name": "ds_athleaths",
+	"name": "ds_olympic_files",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "ls_olympic_data",
 			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"file_name": {
+				"type": "String"
+			}
 		},
 		"folder": {
 			"name": "olympic-data-datasets"
@@ -13,7 +18,10 @@
 		"typeProperties": {
 			"location": {
 				"type": "HttpServerLocation",
-				"relativeUrl": "Athletes.csv"
+				"relativeUrl": {
+					"value": "@dataset().file_name",
+					"type": "Expression"
+				}
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",

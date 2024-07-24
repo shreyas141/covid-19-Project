@@ -1,35 +1,23 @@
 {
-	"name": "ds_adls_gen_two",
+	"name": "ds_file_names_json",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "ls_interview_storage_g2",
 			"type": "LinkedServiceReference"
 		},
-		"parameters": {
-			"file_name": {
-				"type": "String"
-			}
-		},
 		"folder": {
 			"name": "olympic-data-datasets"
 		},
 		"annotations": [],
-		"type": "DelimitedText",
+		"type": "Json",
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": {
-					"value": "@dataset().file_name",
-					"type": "Expression"
-				},
+				"fileName": "file_names.json",
 				"folderPath": "raw-data",
 				"fileSystem": "olympic-data-analysis"
-			},
-			"columnDelimiter": ",",
-			"escapeChar": "\\",
-			"firstRowAsHeader": true,
-			"quoteChar": "\""
+			}
 		},
-		"schema": []
+		"schema": {}
 	}
 }
