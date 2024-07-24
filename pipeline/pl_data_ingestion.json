@@ -52,7 +52,7 @@
 					},
 					"activities": [
 						{
-							"name": "act_copy_athleats_data",
+							"name": "act_copy_olympics_data",
 							"type": "Copy",
 							"dependsOn": [
 								{
