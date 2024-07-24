@@ -1,0 +1,25 @@
+{
+	"name": "ds_athleaths",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_olympic_data",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "olympic-data-datasets"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "HttpServerLocation",
+				"relativeUrl": "Athletes.csv"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
