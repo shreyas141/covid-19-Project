@@ -1,0 +1,16 @@
+{
+	"name": "sample_table",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_on_prem_oracle_sql_interview_db_hr",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "OracleTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "HR",
+			"table": "SAMPLE_TABLE"
+		}
+	}
+}
