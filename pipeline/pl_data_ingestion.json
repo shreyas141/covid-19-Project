@@ -50,15 +50,16 @@
 						"value": "@activity('act_lookup_file_names').output.value",
 						"type": "Expression"
 					},
+					"isSequential": true,
 					"activities": [
 						{
 							"name": "act_copy_olympics_data",
 							"type": "Copy",
 							"dependsOn": [
 								{
-									"activity": "act_file_validation",
+									"activity": "act_delete_file",
 									"dependencyConditions": [
-										"Failed"
+										"Succeeded"
 									]
 								}
 							],
