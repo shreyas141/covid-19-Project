@@ -1,0 +1,16 @@
+{
+	"name": "ls_oracle_user_shreyas_bugad",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "Oracle",
+		"typeProperties": {
+			"connectionString": "host=SHREYAS;port=1521;sid=xe;user id=shreyas_bugad",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiIzZmQzYWY3NS00MDgzLTQ1YWEtOWNjNS1kNTI1NjRhZGU1YzMiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "shreyas-self-hosted-ir",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
