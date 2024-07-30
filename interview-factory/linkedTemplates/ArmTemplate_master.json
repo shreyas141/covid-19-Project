@@ -23,6 +23,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'ls_on_prem_oracle_sql_interview_db_hr'"
 		},
+		"ls_oracle_user_shreyas_bugad_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'ls_oracle_user_shreyas_bugad'"
+		},
 		"ls_sql_covid_database_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'ls_sql_covid_database'"
@@ -43,13 +47,13 @@
 			"type": "string",
 			"defaultValue": "https://interviewstorage2024.dfs.core.windows.net/"
 		},
-		"tr_population_data_arrived_properties_typeProperties_scope": {
-			"type": "string",
-			"defaultValue": "/subscriptions/d9d62a63-6c2a-42d8-b3cb-a0f408bfeb32/resourceGroups/covid-19-project/providers/Microsoft.Storage/storageAccounts/covidblb"
-		},
 		"ls_olympic_data_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://github.com/darshilparmar/tokyo-olympic-azure-data-engineering-project/raw/main/data/"
+		},
+		"tr_population_data_arrived_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/d9d62a63-6c2a-42d8-b3cb-a0f408bfeb32/resourceGroups/covid-19-project/providers/Microsoft.Storage/storageAccounts/covidblb"
 		},
 		"containerUri": {
 			"type": "string",
@@ -125,6 +129,9 @@
 					},
 					"ls_on_prem_oracle_sql_interview_db_hr_connectionString": {
 						"value": "[parameters('ls_on_prem_oracle_sql_interview_db_hr_connectionString')]"
+					},
+					"ls_oracle_user_shreyas_bugad_connectionString": {
+						"value": "[parameters('ls_oracle_user_shreyas_bugad_connectionString')]"
 					}
 				}
 			},
@@ -153,6 +160,26 @@
 			},
 			"dependsOn": [
 				"[resourceId('Microsoft.Resources/deployments', 'interview-factory_ArmTemplate_1')]"
+			]
+		},
+		{
+			"name": "interview-factory_ArmTemplate_3",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_3.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'interview-factory_ArmTemplate_2')]"
 			]
 		}
 	]
