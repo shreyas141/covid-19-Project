@@ -1,0 +1,16 @@
+{
+	"name": "ds_categories_data",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_oracle_user_shreyas_bugad",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "OracleTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "SHREYAS_BUGAD",
+			"table": "CATEGORIES"
+		}
+	}
+}
