@@ -1,0 +1,17 @@
+{
+	"name": "ls_local_file_system_Nosql_data",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "FileServer",
+		"typeProperties": {
+			"host": "C:\\Nosql data",
+			"userId": "SHREYAS",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI3MDA5MjYxNy0xZGQ0LTQzZTYtOGEwNC01NGY1N2M4MGYzZjkiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "shreyas-self-hosted-ir",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
