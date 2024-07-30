@@ -14,6 +14,18 @@
 		"ls_oracle_user_shreyas_bugad_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'ls_oracle_user_shreyas_bugad'"
+		},
+		"ls_local_file_system_Nosql_data_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'ls_local_file_system_Nosql_data'"
+		},
+		"ls_local_file_system_Nosql_data_properties_typeProperties_host": {
+			"type": "string",
+			"defaultValue": "C:\\Nosql data"
+		},
+		"ls_local_file_system_Nosql_data_properties_typeProperties_userId": {
+			"type": "string",
+			"defaultValue": "SHREYAS"
 		}
 	},
 	"variables": {
@@ -750,6 +762,28 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/ls_local_file_system_Nosql_data')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "FileServer",
+				"typeProperties": {
+					"host": "[parameters('ls_local_file_system_Nosql_data_properties_typeProperties_host')]",
+					"userId": "[parameters('ls_local_file_system_Nosql_data_properties_typeProperties_userId')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('ls_local_file_system_Nosql_data_password')]"
+					}
+				},
+				"connectVia": {
+					"referenceName": "shreyas-self-hosted-ir",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/delete_current_date_files')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -908,218 +942,6 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ds_qualifyings_for_interview')]",
 				"[concat(variables('factoryId'), '/datasets/ds_qualifying_files_interview2')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pl_data_ingestion')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "act_lookup_file_names",
-						"type": "Lookup",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "JsonSource",
-								"storeSettings": {
-									"type": "AzureBlobFSReadSettings",
-									"recursive": true,
-									"enablePartitionDiscovery": false
-								},
-								"formatSettings": {
-									"type": "JsonReadSettings"
-								}
-							},
-							"dataset": {
-								"referenceName": "ds_file_names_json",
-								"type": "DatasetReference",
-								"parameters": {}
-							},
-							"firstRowOnly": false
-						}
-					},
-					{
-						"name": "act_for_each",
-						"type": "ForEach",
-						"dependsOn": [
-							{
-								"activity": "act_lookup_file_names",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"items": {
-								"value": "@activity('act_lookup_file_names').output.value",
-								"type": "Expression"
-							},
-							"isSequential": true,
-							"activities": [
-								{
-									"name": "act_copy_olympics_data",
-									"type": "Copy",
-									"dependsOn": [
-										{
-											"activity": "act_delete_file",
-											"dependencyConditions": [
-												"Succeeded"
-											]
-										}
-									],
-									"policy": {
-										"timeout": "0.12:00:00",
-										"retry": 0,
-										"retryIntervalInSeconds": 30,
-										"secureOutput": false,
-										"secureInput": false
-									},
-									"userProperties": [],
-									"typeProperties": {
-										"source": {
-											"type": "DelimitedTextSource",
-											"storeSettings": {
-												"type": "HttpReadSettings",
-												"requestMethod": "GET"
-											},
-											"formatSettings": {
-												"type": "DelimitedTextReadSettings"
-											}
-										},
-										"sink": {
-											"type": "DelimitedTextSink",
-											"storeSettings": {
-												"type": "AzureBlobFSWriteSettings"
-											},
-											"formatSettings": {
-												"type": "DelimitedTextWriteSettings",
-												"quoteAllText": true,
-												"fileExtension": ".csv"
-											}
-										},
-										"enableStaging": false,
-										"translator": {
-											"type": "TabularTranslator",
-											"typeConversion": true,
-											"typeConversionSettings": {
-												"allowDataTruncation": true,
-												"treatBooleanAsNumber": false
-											}
-										}
-									},
-									"inputs": [
-										{
-											"referenceName": "ds_olympic_files",
-											"type": "DatasetReference",
-											"parameters": {
-												"file_name": {
-													"value": "@item().sourceFileName",
-													"type": "Expression"
-												}
-											}
-										}
-									],
-									"outputs": [
-										{
-											"referenceName": "ds_adls_gen_two",
-											"type": "DatasetReference",
-											"parameters": {
-												"file_name": {
-													"value": "@item().sourceFileName",
-													"type": "Expression"
-												}
-											}
-										}
-									]
-								},
-								{
-									"name": "act_file_validation",
-									"type": "Validation",
-									"dependsOn": [],
-									"userProperties": [],
-									"typeProperties": {
-										"dataset": {
-											"referenceName": "ds_adls_gen_two",
-											"type": "DatasetReference",
-											"parameters": {
-												"file_name": {
-													"value": "@item().sourceFileName",
-													"type": "Expression"
-												}
-											}
-										},
-										"timeout": "0.00:00:30",
-										"sleep": 5
-									}
-								},
-								{
-									"name": "act_delete_file",
-									"type": "Delete",
-									"dependsOn": [
-										{
-											"activity": "act_file_validation",
-											"dependencyConditions": [
-												"Succeeded"
-											]
-										}
-									],
-									"policy": {
-										"timeout": "0.12:00:00",
-										"retry": 0,
-										"retryIntervalInSeconds": 30,
-										"secureOutput": false,
-										"secureInput": false
-									},
-									"userProperties": [],
-									"typeProperties": {
-										"dataset": {
-											"referenceName": "ds_adls_gen_two",
-											"type": "DatasetReference",
-											"parameters": {
-												"file_name": {
-													"value": "@item().sourceFileName",
-													"type": "Expression"
-												}
-											}
-										},
-										"enableLogging": false,
-										"storeSettings": {
-											"type": "AzureBlobFSReadSettings",
-											"recursive": true,
-											"enablePartitionDiscovery": false
-										}
-									}
-								}
-							]
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"variables": {
-					"file_name": {
-						"type": "String"
-					}
-				},
-				"folder": {
-					"name": "olympic-data-pipelines"
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/ds_olympic_files')]"
 			]
 		}
 	]
