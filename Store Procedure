@@ -1,0 +1,127 @@
+CREATE OR REPLACE PROCEDURE int_local_ap.sp_copydata_STG_INT(
+    STG_TBL_NAME VARCHAR(16777216),
+    INT_TBL_NAME VARCHAR(16777216),
+    STG_COL_NAME VARCHAR(16777216),
+    INT_COL_NAME VARCHAR(16777216),
+    STG_WHERE_COND VARCHAR(16777216) 
+)
+RETURNS VARCHAR(16777216)
+LANGUAGE JAVASCRIPT
+AS
+$$
+    var msg="";
+    
+    // create helper function log which will call write_to_log stored procedure 
+	function log(name,path,usr,datetime,typ,txt){
+		snowflake.createStatement( { sqlText: 'call STAGING.SP_SNOWFLAKE_LOGGING(:1,:2, :3, :4, :5, :6)', binds:     
+        [name,path,usr,datetime,typ,txt] } ).execute();
+	}
+    
+    // Variable to store current timestamp
+    var V_CURRENTDATE = "";
+    try{
+        //Fetch the current timestamp
+        var sqlc = "SELECT TO_CHAR(convert_timezone('GMT', current_timestamp()), 'YYYY-MM-DD HH24:MI:SS')";
+        var sqls = snowflake.createStatement({ sqlText: sqlc });
+        var rss = sqls.execute()
+        rss.next();
+        V_CURRENTDATE = rss.getColumnValue(1);
+    } catch(err) {
+         var err_result =  "Failed: Code: " + err.code + "\n  State: " + err.state;
+         err_result += "\n  Message: " + err.message;
+         err_result += "\nStack Trace:\n" + err.stackTraceTxt; 
+         var err_output= err_result.replace(/'/g,'');
+         log('SP_COPY_DATA_STG_INT','INT','Ecommerce',V_CURRENTDATE,'error',err_output);
+		 throw err; 
+    }
+    
+    // Extract DBNAME, SCHEMA_NAME, TBL_NAME from full dbname.schema_name.tbl_name
+    var stage_table_name =  STG_TBL_NAME.split('.')[2]
+    var stage_schema_name = STG_TBL_NAME.split('.')[1]
+    var stage_db_name = STG_TBL_NAME.split('.')[0]
+    var integration_table_name = INT_TBL_NAME.split('.')[2]
+    
+    // Dynamically fetch column names from the staging table
+    var get_columns_sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '"+ stage_table_name + "' and TABLE_SCHEMA = '" + stage_schema_name + "' and TABLE_CATALOG = '" + stage_db_name +"'  ORDER BY ORDINAL_POSITION";
+
+    var arr_column_names = [];
+    try{
+        var column_stmt = snowflake.createStatement({
+        sqlText: get_columns_sql
+        })
+        var result_set = column_stmt.execute();
+        while(result_set.next()){
+            // Add each column name to the array
+            arr_column_names.push(result_set.getColumnValue(1));
+        }
+    } catch(err){
+        var err_result = "Failed: Code: "+ err.code + "\nState: "+ err.state;
+        err_result += "\nMessage: "+ err.message;
+        err_result += "\nStack Trace:\n"+ err.stackTraceTxt;
+        var err_output = err_result.replace(/'/g,"");
+        log('Column Fetch Error', 'INT', 'Ecommerce', V_CURRENTDATE, 'error', err_output);
+        throw err;
+    }
+
+    // Join column names into a comma-seprated string for use in the SQL query
+    var columns_str = arr_column_names.join(", ");
+
+    
+    
+    // Determine if a WHERE condition exists for partial load
+    var where_clause = (STG_WHERE_COND && STG_WHERE_COND.trim() != "") ? ' WHERE '+ STG_WHERE_COND : "";
+    var stg_column = ( STG_COL_NAME && STG_COL_NAME.trim() != "") ? STG_COL_NAME : "";
+    var int_column = ( INT_COL_NAME && INT_COL_NAME.trim() != "") ? INT_COL_NAME : "";
+
+    
+    // Define SQL statements for DELETE and INSERT operations
+    var delete_cmd = ""
+    if (stg_column.trim() && int_column.trim() != ''){
+        if (int_column.split(',').length > 1){
+        var delete_cmd = 'DELETE FROM ' + INT_TBL_NAME + ' WHERE (' + int_column + ') IN '+ '(SELECT '+ stg_column + ' FROM '+ stage_db_name + '.'+ stage_schema_name+ '.' + stage_table_name + where_clause + ')';
+        } else{
+            var delete_cmd = 'DELETE FROM ' + INT_TBL_NAME + ' WHERE ' + int_column + ' IN '+ '(SELECT '+ stg_column + ' FROM '+ stage_db_name + '.'+ stage_schema_name+ '.' + stage_table_name + where_clause + ')';
+        }
+    };
+    
+    var insert_cmd = 'INSERT INTO '+ INT_TBL_NAME +' ('+ columns_str +') SELECT '+ columns_str +' FROM '+ stage_db_name +'.'+stage_schema_name+'.'+stage_table_name+ where_clause;
+
+    if (delete_cmd != ''){
+        try {
+            // Execute the Delete command
+            var sql_delete = snowflake.createStatement({ sqlText: delete_cmd });
+            var delete_result = sql_delete.execute();
+            delete_result.next();
+            msg = "Delete with WHERE Condition successful.";
+            var input_p = "The deletion of data is done for table: " + INT_TBL_NAME;
+            log('DELETE Operation', 'INT', 'Ecommerce', V_CURRENTDATE, 'msg', input_p);
+            
+        } catch(err){
+            var err_result = "Failed: Code: "+ err.code + "\nState: "+ err.state;
+            err_result += "\nMessage: "+ err.message;
+            err_result += "\nStack Trace:\n" + err.stackTraceTxt;
+            var err_output = err_result.replace(/'/g, "");
+            log('Delete operation Error', 'INT', 'Ecommerce', V_CURRENTDATE, 'error', err_output);
+            throw err_output
+            
+        }
+    }
+    try{
+        //Execute the INSERT command
+        var sql_insert = snowflake.createStatement({sqlText: insert_cmd})
+        var insert_result = sql_insert.execute();
+        insert_result.next();
+        msg = "Insert successful. Impact Rows: " + insert_result.getColumnValue(1);
+        var input_p = "The insertion of data is done for table: " + INT_TBL_NAME;
+        log('INSERT Operations', 'INT', 'Ecommerce', V_CURRENTDATE, 'msg', input_p);
+
+        return "SUCCESS: Data moved from staging to integration successfully.";
+        
+    } catch(err){
+        var err_result = "Failed: Code: "+ err.code + "\nState: "+ err.state;
+        err_result += "\nMessage: " + err.stackTraceTxt;
+        var err_output = err_result.replace(/'/g, "");
+        log('Insert Operations Error', 'INT', 'Ecommerce', V_CURRENTDATE, 'error', err_output);
+        throw err;
+    }
+$$;
